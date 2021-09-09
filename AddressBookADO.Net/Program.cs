@@ -8,7 +8,8 @@ namespace AddressBookADO.Net
         {
             Console.WriteLine("Welcome to address book ado.net programs");
             ContactRapo contact = new ContactRapo();
-            ContactRapo.RetrieveData();
+            //ContactRapo.RetrieveData();
+            ContactRapo.UpdateDetailsInDB();
         }
     }
 }

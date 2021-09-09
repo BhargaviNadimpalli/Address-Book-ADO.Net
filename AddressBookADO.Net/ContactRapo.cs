@@ -7,13 +7,13 @@ namespace AddressBookADO.Net
 {
     public class ContactRapo
     {
-        SqlConnection sqlConnection = new SqlConnection(@"Data Source=(LocalDb)\localdb;Integrated Security=True");
-        static SqlConnection connection;
+        SqlConnection connectionString = new SqlConnection(@"Data Source=(LocalDb)\localdb;Integrated Security=True");
+        private static SqlConnection connection;
         public static Contacts RetrieveData()
         {
             try
             {
-                connection = new SqlConnection();
+                connection = new SqlConnection(connectionString);
 
                 Contacts contactsDB = new Contacts();
 
@@ -55,6 +55,44 @@ namespace AddressBookADO.Net
                 connection.Close();
             }
 
+        }
+        public static string UpdateDetailsInDB()
+        {
+            string state = "";
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                string query = "update Contacts set State='ap' where FirstName='Bhagi'; select * from Contacts where FirstName='Bhargavi'";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        state = reader.GetString(4);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Row isn't updated");
+                }
+                reader.Close();
+                return state;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return state;
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }
